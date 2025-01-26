@@ -1,0 +1,8 @@
+Explanation of the Code:
+Imports: The tkinter module is used for the GUI, while hashlib is used to compute the hash of the files, and filedialog provides a file picker for users.
+Known Virus Signatures: A dictionary KNOWN_VIRUS_SIGNATURES is used to represent some sample virus signatures (hashes). In a real-world scenario, you'd probably use a database or an external service.
+compute_file_hash: This function reads a file in chunks and computes its MD5 hash.
+scan_file: This function checks the computed hash against the known virus signatures.
+open_file: A file dialog opens for the user to select a file to scan.
+display_result: This shows a message box with the result of the scan.
+GUI Setup: Using Tkinter, a simple window with a label and buttons is created. The Scan File button triggers the file scan.
