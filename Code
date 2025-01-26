@@ -1,0 +1,63 @@
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import hashlib
+import os
+import requests
+
+# Known virus signature hashes for demonstration (This is just for educational purposes)
+KNOWN_VIRUS_SIGNATURES = {
+    'd41d8cd98f00b204e9800998ecf8427e': 'Test Virus 1',
+    'e99a18c428cb38d5f260853678922e03': 'Test Virus 2',
+    '098f6bcd4621d373cade4e832627b4f6': 'Test Virus 3'
+}
+
+# Function to compute the MD5 hash of a file
+def compute_file_hash(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+# Function to scan a file and compare the hash with known virus signatures
+def scan_file(file_path):
+    file_hash = compute_file_hash(file_path)
+    if file_hash in KNOWN_VIRUS_SIGNATURES:
+        return f"Virus Detected: {KNOWN_VIRUS_SIGNATURES[file_hash]}"
+    else:
+        return "File is clean."
+
+# Function to open a file using a file dialog
+def open_file():
+    file_path = filedialog.askopenfilename(title="Select a File to Scan")
+    if file_path:
+        result = scan_file(file_path)
+        display_result(result)
+
+# Function to display the result in a message box
+def display_result(result):
+    messagebox.showinfo("Scan Result", result)
+
+# Set up the main GUI window
+def setup_gui():
+    window = tk.Tk()
+    window.title("Virus Scanner")
+    window.geometry("400x200")
+
+    # Label
+    label = tk.Label(window, text="Select a file to scan for viruses.", font=("Arial", 12))
+    label.pack(pady=20)
+
+    # Scan button
+    scan_button = tk.Button(window, text="Scan File", font=("Arial", 14), command=open_file)
+    scan_button.pack(pady=10)
+
+    # Exit button
+    exit_button = tk.Button(window, text="Exit", font=("Arial", 14), command=window.quit)
+    exit_button.pack(pady=10)
+
+    window.mainloop()
+
+# Run the GUI
+if __name__ == "__main__":
+    setup_gui()
